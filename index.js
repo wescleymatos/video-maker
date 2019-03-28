@@ -1,12 +1,18 @@
 const readline = require('readline-sync');
+const robots = {
+    text: require('./robots/text')
+}
 
 function start() {
     const content = {};
 
-    content.searchTerm = askAndReturnSearhTerm();
+    content.searchTerm = askAndReturnSearchTerm();
     content.prefix = askAndReturnPrefix();
 
-    function askAndReturnSearhTerm() {
+    robots.text(content.searchTerm);
+
+    function askAndReturnSearchTerm() {
+        //console.log(readline.question('Type Wikipidia searh term: '));
         return readline.question('Type Wikipidia searh term: ');
     }
 
