@@ -1,6 +1,31 @@
-var Algorithmia  = require('algorithmia');
-var credential  = require('../credentials/credentials.json').algorithmia.apiKey;
+var Algorithmia = require('algorithmia');
+var credentialAlgorithmia = require('../credentials/credentials.json').algorithmia.apiKey;
+var credentialWatson = require('../credentials/credentials.json').watson.apiKey;
 const sentenceBoundaryDetection = require('sbd');
+var NaturalLanguageUnderstandingV1 = require('watson-developer-cloud/natural-language-understanding/v1.js');
+
+const nlu = new NaturalLanguageUnderstandingV1({
+    iam_apiKey: credentialWatson,
+    version: '2018-04-05',
+    url: 'https://gateway.watsonplatform.net/natural-language-understanding/api/'
+});
+
+nlu.analyze(
+    {
+        html: file_data, // Buffer or String
+        features: {
+            concepts: {},
+            keywords: {}
+        }
+    },
+    function (err, response) {
+        if (err) {
+            console.log('error:', err);
+        } else {
+            console.log(JSON.stringify(response, null, 2));
+        }
+    }
+);
 
 async function robot(content) {
     await fetchContentFromWikipedia(content);
@@ -20,7 +45,7 @@ async function robot(content) {
         const withoutBlankLines = removeBlankLines(content.sourceContentOriginal);
         const withoutMarkdown = removeMarkdown(withoutBlankLines);
         const withoutDateInParenteses = removeDateInParenteses(withoutMarkdown);
-        
+
         content.sourceContentSanitized = withoutDateInParenteses;
 
         function removeBlankLines(text) {
@@ -46,7 +71,7 @@ async function robot(content) {
         }
 
         function removeDateInParenteses(text) {
-            return text.replace(/\((?:\([^()]*\)|[^()])*\)/gm, '').replace(/  /g,' ');
+            return text.replace(/\((?:\([^()]*\)|[^()])*\)/gm, '').replace(/  /g, ' ');
         }
     }
 
