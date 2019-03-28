@@ -3,16 +3,15 @@ const robots = {
     text: require('./robots/text')
 }
 
-function start() {
+async function start() {
     const content = {};
 
     content.searchTerm = askAndReturnSearchTerm();
     content.prefix = askAndReturnPrefix();
 
-    robots.text(content.searchTerm);
+    await robots.text(content);
 
     function askAndReturnSearchTerm() {
-        //console.log(readline.question('Type Wikipidia searh term: '));
         return readline.question('Type Wikipidia searh term: ');
     }
 
@@ -23,8 +22,6 @@ function start() {
 
         return selectedPrefixText;
     }
-
-    console.log(content);
 }
 
 start();
