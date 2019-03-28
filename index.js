@@ -4,9 +4,18 @@ function start() {
     const content = {};
 
     content.searchTerm = askAndReturnSearhTerm();
+    content.prefix = askAndReturnPrefix();
 
     function askAndReturnSearhTerm() {
         return readline.question('Type Wikipidia searh term: ');
+    }
+
+    function askAndReturnPrefix() {
+        const prefixes = ['Who is', 'What is', 'The history of'];
+        const selectedPrefixIndex = readline.keyInSelect(prefixes, 'Choose one option: ');
+        const selectedPrefixText = prefixes[selectedPrefixIndex];
+
+        return selectedPrefixText;
     }
 
     console.log(content);
