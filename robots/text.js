@@ -10,22 +10,6 @@ const nlu = new NaturalLanguageUnderstandingV1({
     url: 'https://gateway.watsonplatform.net/natural-language-understanding/api/'
 });
 
-nlu.analyze(
-    {
-        html: file_data, // Buffer or String
-        features: {
-            concepts: {},
-            keywords: {}
-        }
-    },
-    function (err, response) {
-        if (err) {
-            console.log('error:', err);
-        } else {
-            console.log(JSON.stringify(response, null, 2));
-        }
-    }
-);
 
 async function robot(content) {
     await fetchContentFromWikipedia(content);
@@ -85,6 +69,30 @@ async function robot(content) {
                 keywords: [],
                 images: []
             });
+        });
+    }
+
+    async function fetchWatsonAndReturnKeywordsSentences(sentence) {
+        return new Promise((resolve, reject) => {
+            nlu.analyze(
+                {
+                    text: sentence,
+                    features: {
+                        keywords: {}
+                    }
+                },
+                function (err, response) {
+                    if (error) {
+                        throw error;
+                    }
+    
+                    const keywords = response.keywords.map(keyword => {
+                        return keyword.text;
+                    });
+    
+                    resolve(keywords);
+                }
+            );
         });
     }
 }
