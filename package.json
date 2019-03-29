@@ -17,8 +17,9 @@
   },
   "homepage": "https://github.com/wescleymatos/video-maker#readme",
   "dependencies": {
-    "algorithmia": "^0.3.10",
     "readline-sync": "^1.4.9",
+    "watson-developer-cloud": "^3.18.4",
+    "algorithmia": "^0.3.10",
     "sbd": "^1.0.15"
   }
 }
